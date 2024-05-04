@@ -11,7 +11,15 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
+import os
+import dj_database_url
+from socket import gethostbyname
+from socket import gethostname
+from django.utils.timezone import timedelta
 
+
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,26 +28,50 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-2uqp5yk(v3w0ib^21$+f**z9!8o9^*9u4u_+9*j(8tqlh5v#%$'
+SECRET_KEY = os.environ.get('SECRET_KEY', '')
+DEBUG = os.environ.get('DEBUG', False)
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+AUTH_USER_MODEL = 'authentication.User'
 
-ALLOWED_HOSTS = []
+
+
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(",")
+ALLOWED_HOSTS.append(gethostbyname(gethostname()))
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'corsheaders',
+    'core',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # apps
+    'authentication',
+    'budget',
+    'expenses',
+    'notification',
+
+    # libraries app
+    'rest_framework',
+    'django_rest_passwordreset',
+    'rest_framework_simplejwt',
+    'drf_yasg',
+    'django_filters',
+    'storages',
+    'channels',
+    'channels_redis',
+    'django_redis',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -68,16 +100,21 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'core.wsgi.application'
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'
 
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+db_config = dj_database_url.config(
+    default=os.environ.get('DATABASE_URL'))
+db_config['ATOMIC_REQUESTS'] = True
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': db_config,
+
 }
 
 
@@ -121,3 +158,39 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+
+AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_QUERYSTRING_AUTH = False
+
+VERIFY_URL = os.environ.get('VERIFY_URL')
+
+
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+
+CELERY_RESULT_BACKEND = os.environ.get(
+    'REDIS_URL', 'redis://127.0.0.1:6379/1')
+CELERY_BROKER_URL = os.environ.get(
+    'REDIS_URL', 'redis://127.0.0.1:6379/1')
+CELERY_TIMEZONE = 'UTC'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+
+CELERY_BEAT_SCHEDULE = {
+    'get_notified': {
+        'task': 'expired_requests',
+        'schedule': timedelta(minutes=5),
+    },
+}
+
+
+
