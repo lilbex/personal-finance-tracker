@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'budget',
     'expenses',
     'notification',
+    'income',
 
     # libraries app
     'rest_framework',
