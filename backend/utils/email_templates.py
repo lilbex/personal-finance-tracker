@@ -13,27 +13,6 @@ load_dotenv()
 aws_access_key_id = os.environ.get('SES_AWS_ACCESS_KEY_ID')
 aws_secret_access_key = os.environ.get('SES_AWS_SECRET_ACCESS_KEY')
 
-style = """
-<style>
-    button {
-        background-color: #4CAF50;
-        border: none;
-        color: white;
-        padding: 15px 32px;
-        text-align: center;
-        font-size: 16px;
-        cursor: pointer;
-    }
-    p {
-        font-size: 16px;
-        color: #000000;
-        margin-bottom: 10px;
-    }
-    a {
-        color: #0000FF;
-    }
-"""
-
 
 class AWSEmailTemplateManager:
     def __init__(self):
@@ -192,7 +171,7 @@ class AWSEmailTemplateManager:
 def account_activation_template():
     template_manager = AWSEmailTemplateManager()
 
-    template_name = "AccountActivationTemplate"
+    template_name = "VerifyAccountFt"
     subject_part = "Complete Your Total Health Care 360 Platform Registration"
 
     html_body = """
@@ -243,7 +222,7 @@ def account_activation_template():
 def reset_password_template():
     template_manager = AWSEmailTemplateManager()
 
-    template_name = "ResetPasswordTemplate"
+    template_name = "PasswordResetFT"
     subject_part = "Total Health Care - Password Reset Request"
     html_body = """
     <html>
