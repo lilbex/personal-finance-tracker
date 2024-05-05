@@ -1,11 +1,11 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from django.db.models import Sum
+from django.db.models import Sum, Q
 from budget.models import BudgetAllocation
 from expenses.models import Expenses
-from expenses.serializers import CreateExpensesSerializer
-from budget.models import BudgetSettings
+from expenses.serializers import CreateExpensesSerializer,GetExpensesSerializer
+from budget.models import BudgetSettings, Budget
 
 class CreateBudgetAllocationView(generics.GenericAPIView):
     """
@@ -44,3 +44,49 @@ class CreateBudgetAllocationView(generics.GenericAPIView):
                 return Response({"message": "Please input valid data and try again"}, status=status.HTTP_400_BAD_REQUEST)
         except BudgetAllocation.DoesNotExist:
             return Response({"message": "Budget allocation does not exist"}, status=status.HTTP_404_NOT_FOUND)
+
+
+class ListExpensesForCategoryAllocation(generics.ListAPIView):
+    """
+    List all allocations for a specific budget.
+    """
+    serializer_class = GetExpensesSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        budget_id = self.kwargs.get('budget_id')
+        queryset = Expenses.objects.filter(budget_id=budget_id)
+        return queryset
+
+    # def list(self, request, *args, **kwargs):
+    #     queryset = self.get_queryset()
+    #     serializer = self.serializer_class(queryset, many=True)
+    #     return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class ListAllBudgetExpenses(generics.ListAPIView):
+    """
+    List all allocations created by the authenticated user.
+    """
+    serializer_class = GetExpensesSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        budget_id = self.kwargs.get('budget_id')
+        budget = Budget.object.get(id=budget_id)
+        queryset = Expenses.objects.filter(budget=budget)
+
+        search_query = self.request.query_params.get('search', None)
+        if search_query:
+            queryset = queryset.filter(
+                Q(allocation__category__name__icontains=search_query) |
+                Q(item__icontains=search_query) |
+                Q(note__icontains=search_query)
+            )
+
+        return queryset
+
+    # def list(self, request, *args, **kwargs):
+    #     queryset = self.get_queryset()
+    #     serializer = self.serializer_class(queryset, many=True)
+    #     return Response(serializer.data, status=status.HTTP_200_OK)
