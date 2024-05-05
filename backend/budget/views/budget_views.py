@@ -1,13 +1,13 @@
 from rest_framework import status, generics
 from rest_framework.response import Response
 from budget.models import Budget
-from rest_framework.views import APIView
+# from rest_framework.views import APIView
 from django.db.models import Q
 from rest_framework.permissions import IsAuthenticated
 from budget.serializers import CreateBudgetSerializer, GetBudgetSerializer
 
 
-class CreateBudgetView(APIView):
+class CreateBudgetView(generics.GenericAPIView): # using this  view help properly generate documentation
     """
     Create a new budget.
     """

@@ -3,7 +3,8 @@ import json
 import os
 from utils.email_templates import AWSEmailTemplateManager
 from django.contrib.auth import get_user_model
-from rest_framework.views import APIView
+# from rest_framework.views import APIView
+from rest_framework import generics
 from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -36,8 +37,9 @@ def send_verification_email(email, name, link):
     return True
 
 
-class RegisterView(APIView):
+class RegisterView(generics.GenericAPIView):
     permission_classes = (AllowAny,)
+    serializer_class=RegisterSerializer
 
     def post(self, request):
         data = request.data

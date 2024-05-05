@@ -48,13 +48,13 @@ class User(AbstractBaseUser, PermissionsMixin):
     id = models.UUIDField(
         primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     email = models.CharField(max_length=255, unique=True)
-    first_name = models.CharField(max_length=255,  null=False, blank=True)
-    last_name = models.CharField(max_length=255,  null=False, blank=True)
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
     is_verified = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    phone_number = models.CharField(max_length=20, null=True, blank=True)
+    phone_number = models.CharField(max_length=20)
     otp = models.CharField(max_length=6, null=True, blank=True)
     activation_key = models.CharField(max_length=40, blank=True)
 

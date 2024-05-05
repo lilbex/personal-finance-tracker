@@ -10,7 +10,7 @@ class CreateExpensesSerializer(serializers.ModelSerializer):
         fields = ["item", "amount", "note"]
 
 
-class GetBudgetSerializer(serializers.ModelSerializer):
+class GetExpensesSerializer(serializers.ModelSerializer):
     allocation = GetBudgetAllocationSerializer()
 
     class Meta:

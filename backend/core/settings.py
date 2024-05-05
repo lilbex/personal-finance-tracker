@@ -35,9 +35,9 @@ AUTH_USER_MODEL = 'authentication.User'
 
 
 
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(",")
-ALLOWED_HOSTS.append(gethostbyname(gethostname()))
-
+# ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(",")
+# ALLOWED_HOSTS.append(gethostbyname(gethostname()))
+ALLOWED_HOSTS=['*']
 
 # Application definition
 
@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_rest_passwordreset',
     'rest_framework_simplejwt',
+    # 'django.contrib.staticfiles',  # required for serving swagger ui's css/js files
     'drf_yasg',
     'django_filters',
     'storages',

@@ -1,5 +1,5 @@
 
-from rest_framework import serializers,  status, views
+from rest_framework import serializers,  status, generics
 
 from utils.response import Response
 from authentication.models import User
@@ -11,7 +11,7 @@ class EmailVerificationSerializer(serializers.Serializer):
     token = serializers.CharField(max_length=555)
 
 
-class VerifyEmail(views.APIView):
+class VerifyEmail(generics.GenericAPIView):
     serializer_class = EmailVerificationSerializer
 
     def post(self, request):

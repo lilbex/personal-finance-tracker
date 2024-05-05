@@ -1,4 +1,4 @@
-from rest_framework import serializers,  status, views
+from rest_framework import serializers,  status, generics
 from rest_framework.response import Response
 from authentication.models import User
 import jwt
@@ -13,7 +13,7 @@ class SetNewPasswordSerializer(serializers.ModelSerializer):
         fields = ['token', 'password']
 
 
-class ResetPassword(views.APIView):
+class ResetPassword(generics.GenericAPIView):
     serializer_class = SetNewPasswordSerializer
 
     def post(self, request):
