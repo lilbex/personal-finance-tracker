@@ -27,4 +27,5 @@ urlpatterns = [
     path('api/v1/auth/', include(('authentication.urls',
          'authentication'), namespace='authentication')),
     path('api/v1/budget/', include(('budget.urls', 'budget'), namespace='budget')),
+     path('api/v1/expenses/', include(('expenses.urls', 'expenses'), namespace='expenses')),
 ]

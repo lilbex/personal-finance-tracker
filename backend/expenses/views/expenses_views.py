@@ -7,7 +7,7 @@ from expenses.models import Expenses
 from expenses.serializers import CreateExpensesSerializer,GetExpensesSerializer
 from budget.models import BudgetSettings, Budget
 
-class CreateBudgetAllocationView(generics.GenericAPIView):
+class CreateExpensesView(generics.GenericAPIView):
     """
     Create expenses against a budget allocation. If you set allow_spend_beyond_budget to true, then
     you can not add expenses if you have spend beyond the total expenses for that category or if
@@ -54,7 +54,7 @@ class ListExpensesForCategoryAllocation(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        budget_id = self.kwargs.get('budget_id')
+        budget_id = self.kwargs.get('allocation_id')
         queryset = Expenses.objects.filter(budget_id=budget_id)
         return queryset
 
