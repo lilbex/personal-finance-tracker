@@ -28,10 +28,11 @@ Feel free to clone and personalize
 # Installation
 1. `git clone https://github.com/lilbex/personal-finance-tracker.git`
 2. `cd personal-finance-tracker`
-3. cd into __backend__ folder and create a .env file to set Environment variable following the example in env_example. Do the same for __frontend__ folder
-4. Ensure your docker daemon is running. you can download docker [here](https://www.docker.com/get-started/) 
-5. On your root directory type `docker-compose up --build`
-6. Visit http://localhost:5173/ on your browser to view the app
+3. `cd backend` folder and create a .env file to set Environment variable following the example in env_example. Do the same for __frontend__ folder
+4. `cd frontend` folder and create a .env file to set Environment variable following the example in env_example. 
+5. Ensure your docker daemon is running. you can download docker [here](https://www.docker.com/get-started/) 
+6. On your root directory type `docker-compose up --build`
+7. Visit http://localhost:5173/ on your browser to view the app
 
 # License
 This project is licensed under the MIT License. You are free to use, modify, and distribute the code for any purpose, with attribution.
