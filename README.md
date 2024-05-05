@@ -1,6 +1,18 @@
 # Introduction
 The Personal Finance Tracker is a web application designed to help users manage their finances effectively by tracking income, expenses, budgets, and financial goals.
 
+# Main tools
+- __Backend__: Python (Django and Django restframework)
+- __Frontend__: Typescript (React)
+- __Style__: Tailwind CSS
+- __Email__: Amazon SES
+- __Media Storage__: Amazon S3
+- __Cache and Message Broker__: Redis
+- __Task Scheduler__: Celery
+
+Feel free to clone and personalize
+
+
 # Features
 - User Authentication: Secure user authentication system allowing users to register, login, and manage their accounts.
 - Dashboard: Interactive dashboard displaying an overview of the user's financial status, including income, expenses, and budget progress.
