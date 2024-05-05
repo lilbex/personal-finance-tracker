@@ -2,6 +2,7 @@ from django.urls import path
 
 from budget.views import (
     BudgetCategoryList,
+    CreateBudgetCategory,
     CreateBudgetView,
     GetBudgetListView,
     CreateBudgetAllocationView,
@@ -12,6 +13,7 @@ from budget.views import (
 
 urlpatterns = [
     path('list-category/', BudgetCategoryList.as_view(), name="list-category"),
+    path('create-budget-category/', CreateBudgetCategory.as_view(), name='create-budget-category'),
     path('create-budget/', CreateBudgetView.as_view(), name='create-budget'),
     path('list-budget/', GetBudgetListView.as_view(),
          name='list-budgets'),

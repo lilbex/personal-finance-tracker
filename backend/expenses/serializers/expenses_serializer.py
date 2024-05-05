@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from budget.models import BudgetAllocation
 from expenses.models import Expenses
 from budget.serializers import GetBudgetAllocationSerializer
 
@@ -14,7 +13,7 @@ class GetExpensesSerializer(serializers.ModelSerializer):
     allocation = GetBudgetAllocationSerializer()
 
     class Meta:
-        model = BudgetAllocation
+        model = Expenses
         fields = ["id",
                   "allocation",
                   "item",

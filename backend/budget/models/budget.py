@@ -7,7 +7,7 @@ class Budget(models.Model):
         primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     start_date = models.DateField()
     end_date = models.DateField()
-    amount = models.CharField(max_length=100, null=True, blank=True)
+    amount = models.DecimalField(max_digits=15, decimal_places=2)
     note = models.TextField(null=False, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

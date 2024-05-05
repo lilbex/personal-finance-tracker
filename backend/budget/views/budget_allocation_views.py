@@ -1,7 +1,7 @@
 from rest_framework import status, generics
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from budget.models import BudgetAllocation, Budget, BudgetSettings
+from budget.models import BudgetAllocation, Budget, BudgetSettings, BudgetCategory
 from budget.serializers import CreateBudgetAllocationSerializer, GetBudgetAllocationSerializer
 from django.db.models import Q, Sum
 
@@ -14,36 +14,47 @@ class CreateBudgetAllocationView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
+        user = request.user
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
             try:
                 # Ensure that the budget and category are associated with the authenticated user
-                budget_id = serializer.validated_data['budget']
+                budget_id = request.data['budget']
                 budget = Budget.objects.get(id=budget_id)
-                category = serializer.validated_data['category']
+                category = request.data['category']
+                budget_category = BudgetCategory.objects.get(id=category)
 
                 # Check if a budget allocation already exists for the same budget and category
-                if BudgetAllocation.objects.filter(budget=budget, category=category).exists():
-                    return Response({"error": "You already allocated budget for this category."},
+                if BudgetAllocation.objects.filter(budget=budget, category=budget_category, user=user).exists():
+                    return Response({"message": "You already allocated budget for this category."},
                                     status=status.HTTP_409_CONFLICT)
 
                 # Ensure that the budget is associated with the authenticated user
-                if budget.logged_by != request.user:
-                    return Response({"error": "You are not authorized to create a budget allocation for this budget."},
+                if budget.user != user:
+                    return Response({"message": "You are not authorized to create a budget allocation for this budget."},
                                     status=status.HTTP_403_FORBIDDEN)
 
                 # Check if total allocation exceeds budget amount and spending beyond budget is not allowed
-                total_allocation = BudgetAllocation.objects.filter(
-                    budget=budget).aggregate(total_spend=Sum('amount'))['total_spend'] or 0
+                allocation = BudgetAllocation.objects.filter(budget=budget)
+                total_allocation = sum(int(obj.amount) for obj in allocation)
+                print("total allocation", total_allocation)
                 requested_amount = request.data.get('amount', 0)
-                if total_allocation + requested_amount > budget.amount and not BudgetSettings.allow_spend_beyond_budget:
+                print("requested_amount", requested_amount)
+                total = total_allocation + int(requested_amount)
+
+                print('budget', int(budget.amount))
+
+                budget_settings = BudgetSettings.objects.get(user=user)
+
+                if total > int(budget.amount) and budget_settings.allow_spend_beyond_budget == False:
 
                     return Response({"message": 'Enable allow spending beyond budget or increase your budget'}, status=status.HTTP_406_NOT_ACCEPTABLE)
 
-                serializer.save()
+                serializer.save(
+                    budget=budget, category=budget_category, user=request.user)
                 return Response({"message": "Budget successfully allocated"}, status=status.HTTP_201_CREATED)
             except Budget.DoesNotExist:
-                return Response({"error": "Budget does not exist."}, status=status.HTTP_404_NOT_FOUND)
+                return Response({"message": "Budget does not exist."}, status=status.HTTP_404_NOT_FOUND)
         else:
             return Response({"message": "Please input valid data and try again"}, status=status.HTTP_400_BAD_REQUEST)
 

@@ -3,7 +3,7 @@ from income.models import Income
 
 
 class CreateIncomeSerializer(serializers.ModelSerializer):
-    class meta:
+    class Meta:
         model = Income
         fields = ['amount',
                   'note',
@@ -11,7 +11,7 @@ class CreateIncomeSerializer(serializers.ModelSerializer):
 
 
 class GetIncomeSerializer(serializers.ModelSerializer):
-    class meta:
+    class Meta:
         model = Income
         fields = ["id",
                   "amount",

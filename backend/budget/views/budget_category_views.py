@@ -1,8 +1,18 @@
-from rest_framework import status
+from rest_framework import status, generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from budget.models import BudgetCategory
-from budget.serializers import GetBudgetCategorySerializer
+from budget.serializers import GetBudgetCategorySerializer, CreateBudgetCategorySerializer
+
+
+class CreateBudgetCategory(generics.CreateAPIView):
+    """
+    Create budget category
+    """
+
+    queryset = BudgetCategory.objects.all()
+    serializer_class = CreateBudgetCategorySerializer
+
 
 class BudgetCategoryList(APIView):
     """

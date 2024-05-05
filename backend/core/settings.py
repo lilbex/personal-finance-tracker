@@ -17,6 +17,10 @@ import dj_database_url
 from socket import gethostbyname
 from socket import gethostname
 from django.utils.timezone import timedelta
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api	
+    
 
 
 load_dotenv()
@@ -162,16 +166,21 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+# To use aws as media storage uncomment the following settings
+# AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+# AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+# AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+# AWS_S3_FILE_OVERWRITE = False
+# AWS_DEFAULT_ACL = None
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# AWS_QUERYSTRING_AUTH = False
 
-AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
-
-AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
-
-AWS_S3_FILE_OVERWRITE = False
-AWS_DEFAULT_ACL = None
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-AWS_QUERYSTRING_AUTH = False
+      
+cloudinary.config( 
+  cloud_name = "lilbex-technology", 
+  api_key = "182897526433227", 
+  api_secret = "9UdCj61b3PFVEdGEfXVQ2ntd6I8" 
+)
 
 VERIFY_URL = os.environ.get('VERIFY_URL')
 
