@@ -53,7 +53,6 @@ def delete_compliance(request, setting_item):
         user = request.user
         budget_settings = BudgetSettings.objects.get(user=user)
 
-        # Check if the compliance item exists in the model
         if hasattr(budget_settings, setting_item):
             setattr(budget_settings, setting_item, None)
             budget_settings.save()

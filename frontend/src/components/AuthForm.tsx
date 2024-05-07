@@ -73,7 +73,7 @@ const AuthForm = ({ type }: { type: string }) => {
         <a href="/" className="cursor-pointer flex items-center gap-1">
           <img src="/logo.svg" width={34} height={34} alt="Horizon logo" />
           <h1 className="text-26 font-ibm-plex-serif font-bold text-black-1">
-            Horizon
+            Lilbex
           </h1>
         </a>
 
@@ -148,10 +148,7 @@ const AuthForm = ({ type }: { type: string }) => {
               ? "Don't have an account?"
               : "Already have an account?"}
           </p>
-          <a
-            href={type === "sign-in" ? "/sign-up" : "/sign-in"}
-            className="form-link"
-          >
+          <a href={type === "sign-in" ? "/sign-up" : "/"} className="form-link">
             {type === "sign-in" ? "Sign up" : "Sign in"}
           </a>
         </footer>

@@ -1,10 +1,13 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import React, { useState } from "react";
 // import { BankTabItem } from "./BankTabItem";
 // import BankInfo from "./BankInfo";
 // import TransactionsTable from "./TransactionsTable";
 // import { Pagination } from "./Pagination";
+import { cn } from "@/lib/utils";
 
 const RecentTransactions = () => {
+  const [isActive, setIsActive] = useState<String>("account");
   return (
     <section className="recent-transactions">
       <header className="flex items-center justify-between">
@@ -14,41 +17,51 @@ const RecentTransactions = () => {
         </a>
       </header>
 
-      <Tabs defaultValue={"helo"} className="w-full">
+      <Tabs defaultValue="account" className="w-full">
         <TabsList className="recent-transactions-tablist">
-          {/* {accounts.map((account: Account) => (
-            <TabsTrigger key={account.id} value={account.appwriteItemId}>
-              <BankTabItem
-                key={account.id}
-                account={account}
-                appwriteItemId={appwriteItemId}
-              />
-            </TabsTrigger>
-          ))} */}
+          <TabsTrigger value="account">
+            <div
+              onClick={() => setIsActive("account")}
+              className={cn(`banktab-item`, {
+                " border-blue-600": isActive === "account",
+              })}
+            >
+              <p
+                className={cn(
+                  `text-16 line-clamp-1 flex-1 font-medium text-gray-500`,
+                  {
+                    " text-blue-600": isActive === "account",
+                  }
+                )}
+              >
+                Account
+              </p>
+            </div>
+          </TabsTrigger>
+          <TabsTrigger value="password">
+            <div
+              onClick={() => setIsActive("password")}
+              className={cn(`banktab-item`, {
+                " border-blue-600": isActive === "password",
+              })}
+            >
+              <p
+                className={cn(
+                  `text-16 line-clamp-1 flex-1 font-medium text-gray-500`,
+                  {
+                    " text-blue-600": isActive === "password",
+                  }
+                )}
+              >
+                Password
+              </p>
+            </div>
+          </TabsTrigger>
         </TabsList>
-
-        {/* {accounts.map((account: Account) => (
-          <TabsContent
-            value={account.appwriteItemId}
-            key={account.id}
-            className="space-y-4"
-          >
-            <BankInfo 
-              account={account}
-              appwriteItemId={appwriteItemId}
-              type="full"
-            />
-
-            <TransactionsTable transactions={currentTransactions} />
-            
-
-            {totalPages > 1 && (
-              <div className="my-4 w-full">
-                <Pagination totalPages={totalPages} page={page} />
-              </div>
-            )}
-          </TabsContent>
-        ))} */}
+        <TabsContent value="account">
+          Make changes to your account here.
+        </TabsContent>
+        <TabsContent value="password">Change your password here.</TabsContent>
       </Tabs>
     </section>
   );

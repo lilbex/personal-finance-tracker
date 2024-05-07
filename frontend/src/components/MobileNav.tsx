@@ -21,7 +21,7 @@ const MobileNav = () => {
       <Sheet>
         <SheetTrigger>
           <img
-            src="/icons/hamburger.svg"
+            src="/hamburger.svg"
             width={30}
             height={30}
             alt="menu"
@@ -29,10 +29,13 @@ const MobileNav = () => {
           />
         </SheetTrigger>
         <SheetContent side="left" className="border-none bg-white">
-          <a href="/" className="cursor-pointer flex items-center gap-1 px-4">
+          <a
+            href="/dashboard"
+            className="cursor-pointer flex items-center gap-1 px-4"
+          >
             <img src="/logo.svg" width={34} height={34} alt="Horizon logo" />
             <h1 className="text-26 font-ibm-plex-serif font-bold text-black-1">
-              Horizon
+              Lilbex
             </h1>
           </a>
           <div className="mobilenav-sheet">

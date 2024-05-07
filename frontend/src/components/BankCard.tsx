@@ -44,7 +44,7 @@ const BankCard = () => {
         />
       </a>
 
-      <Copy title={"1245"} />
+      {/* <Copy title={"1245"} /> */}
     </div>
   );
 };

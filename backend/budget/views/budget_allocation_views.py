@@ -37,12 +37,8 @@ class CreateBudgetAllocationView(generics.GenericAPIView):
                 # Check if total allocation exceeds budget amount and spending beyond budget is not allowed
                 allocation = BudgetAllocation.objects.filter(budget=budget)
                 total_allocation = sum(int(obj.amount) for obj in allocation)
-                print("total allocation", total_allocation)
                 requested_amount = request.data.get('amount', 0)
-                print("requested_amount", requested_amount)
                 total = total_allocation + int(requested_amount)
-
-                print('budget', int(budget.amount))
 
                 budget_settings = BudgetSettings.objects.get(user=user)
 
