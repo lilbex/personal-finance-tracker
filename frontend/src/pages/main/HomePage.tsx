@@ -14,7 +14,7 @@ const Home = () => {
               type="greeting"
               title="Welcome"
               user={"Guest"}
-              subtext="Access and manage your account and transactions efficiently."
+              subtext="Track your personal income, budget and expenses for proper finance management"
             />
 
             <TotalBalanceBox />

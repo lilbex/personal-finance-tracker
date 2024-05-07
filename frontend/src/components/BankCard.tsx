@@ -4,11 +4,18 @@ import Copy from "./Copy";
 const BankCard = () => {
   return (
     <div className="flex flex-col">
-      <a href={`/transaction-history/?id=`} className="bank-card">
+      <a href={`/budgets`} className="bank-card">
         <div className="bank-card_content">
           <div>
-            <h1 className="text-16 font-semibold text-white">Elias imokhi</h1>
-            <p className="font-ibm-plex-serif font-black text-white">4000</p>
+            <h1 className="text-16 font-semibold text-white">
+              15/12/2024 - 12/2/2025
+            </h1>
+            <p className="font-ibm-plex-serif font-black text-white">
+              Amount: $4000
+            </p>
+            <p className="font-ibm-plex-serif font-black text-white">
+              Expenses: $1000
+            </p>
           </div>
 
           <article className="flex flex-col gap-2">
